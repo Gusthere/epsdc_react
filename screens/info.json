@@ -1,0 +1,22 @@
+{
+  "usuarios": [
+    {
+      "usuario": "29976514",
+      "clave": "Valentina1*",
+      "nombre": "Gustavo",
+      "rol": "Super Usuario"
+    },
+    {
+      "usuario": "31111111",
+      "clave": "Valentina1*",
+      "nombre": "Wilker",
+      "rol": "Super Usuario"
+    },
+    {
+      "usuario": "32222222",
+      "clave": "Valentina1*",
+      "nombre": "Jhon",
+      "rol": "Super Usuario"
+    }
+  ]
+}
