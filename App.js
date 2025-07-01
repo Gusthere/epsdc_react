@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import RecuperarForm from "./screens/recuperar_cuenta";
 import CodigoForm from "./screens/codigo";
 import LoginScreen from "./screens/login";
-import SolicitudScreen from "./screens/solicitud";
+import SolicitudScreen from "./screens/solicitudscreen/solicitud";
 
 import { alertConfigs } from "./components/hooks/alertConfigs"; // Importa las configuraciones de alertas
 
