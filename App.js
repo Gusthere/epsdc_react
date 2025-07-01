@@ -5,6 +5,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import RecuperarForm from "./screens/recuperar_cuenta";
 import CodigoForm from "./screens/codigo";
 import LoginScreen from "./screens/login";
+import SolicitudScreen from "./screens/solicitud";
+
 import { alertConfigs } from "./components/hooks/alertConfigs"; // Importa las configuraciones de alertas
 
 const Stack = createStackNavigator();
@@ -66,6 +68,20 @@ const Navegador = () => {
             }}
           >
             {(props) => <CodigoForm {...props} alertConfigs={alertConfigs} />}
+          </Stack.Screen>
+          <Stack.Screen
+            name="solicitud"
+            options={{
+              title: "Solicitud",
+              headerStyle: {
+                backgroundColor: "#5478ff",
+                borderBottomWidth: 1,
+                borderBottomColor: "#ffffff",
+              },
+              headerTintColor: "#FFFFFF",
+            }}
+          >
+            {(props) => <SolicitudScreen {...props} />}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

@@ -19,9 +19,11 @@ const LoginScreen = ({ navigation }) => {
         .get("info.json")
         .then((response) => {
           alert("Bienvenido de vuelta");
+          navigation.navigate("solicitud"); // Navegar a 'solicitud' después del login exitoso
         })
         .catch((error) => {
           alert("Bienvenido de vuelta");
+          navigation.navigate("solicitud"); // Navegar a 'solicitud' después del login exitoso
         });
     } else {
       console.log("Datos incompletos");
