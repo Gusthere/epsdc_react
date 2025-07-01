@@ -442,10 +442,10 @@ const styles = StyleSheet.create({
   filtroLabel: { fontWeight: 'bold', fontSize: 12 },
   picker: { height: 40, width: '100%' },
   dateBtn: { borderWidth: 1, borderColor: '#ccc', padding: 6, borderRadius: 4, backgroundColor: '#f8f8f8', marginTop: 2 },
-  pdfBtn: { backgroundColor: '#ff914d', padding: 8, borderRadius: 5, marginLeft: 8 },
+  pdfBtn: { backgroundColor: '#ff4343', padding: 8, borderRadius: 5, marginLeft: 8 },
   tableHeader: {
     flexDirection: 'row',
-    backgroundColor: '#ff914d',
+    backgroundColor: '#ff4343',
     padding: 6,
     borderRadius: 4,
     marginBottom: 2,
