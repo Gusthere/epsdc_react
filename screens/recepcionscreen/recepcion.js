@@ -6,6 +6,7 @@ import styles from './styles';
 import { recepcionesMock, estados, municipios, parroquias } from './data';
 import { View, Text } from 'react-native';
 import MainTabs from '../../components/MainTabs';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const RecepcionScreen = () => {
   // Filtros
@@ -15,6 +16,7 @@ const RecepcionScreen = () => {
   const [fechaInicio, setFechaInicio] = useState(null);
   const [fechaFin, setFechaFin] = useState(null);
   const [recepciones, setRecepciones] = useState(recepcionesMock);
+  const [showDatePicker, setShowDatePicker] = useState(null);
 
   // Modal
   const [modalVisible, setModalVisible] = useState(false);
@@ -45,11 +47,11 @@ const RecepcionScreen = () => {
       <MainTabs />
       <Text style={styles.title}>Lista de Recepciones</Text>
       <RecepcionFilters
-        estado={estado} setEstado={setEstado} estados={estados}
-        municipio={municipio} setMunicipio={setMunicipio} municipios={municipios}
-        parroquia={parroquia} setParroquia={setParroquia} parroquias={parroquias}
-        fechaInicio={fechaInicio} setShowDatePicker={() => {}}
-        fechaFin={fechaFin} exportarPDF={exportarPDF}
+         estado={estado} setEstado={setEstado} estados={estados}
+  municipio={municipio} setMunicipio={setMunicipio} municipios={municipios}
+  parroquia={parroquia} setParroquia={setParroquia} parroquias={parroquias}
+  fechaInicio={fechaInicio} setShowDatePicker={setShowDatePicker} // <-- aquí el cambio
+  fechaFin={fechaFin} exportarPDF={exportarPDF}
       />
       <RecepcionTable
         recepciones={recepciones}
@@ -61,6 +63,20 @@ const RecepcionScreen = () => {
         cerrarModal={cerrarModal}
         recepcionSeleccionada={recepcionSeleccionada}
       />
+      {showDatePicker && (
+        <DateTimePicker
+          value={showDatePicker === 'inicio' ? (fechaInicio || new Date()) : (fechaFin || new Date())}
+          mode="date"
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          onChange={(event, date) => {
+            setShowDatePicker(null);
+            if (date) {
+              if (showDatePicker === 'inicio') setFechaInicio(date);
+              else if (showDatePicker === 'fin') setFechaFin(date);
+            }
+          }}
+        />
+      )}
     </View>
   );
 };

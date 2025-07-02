@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import SolicitudFilters from './solicitudfilters';
 import SolicitudTable from './solicitudtable';
 import PagoModal from './pagomodal';
@@ -21,7 +22,7 @@ const SolicitudScreen = () => {
   const [referencia, setReferencia] = useState('');
   const [banco, setBanco] = useState('');
   const [fechaPago, setFechaPago] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(null);
   const [imagen, setImagen] = useState(null);
 
   // Para seleccionar solicitud activa
@@ -82,6 +83,20 @@ const SolicitudScreen = () => {
         cerrarModal={() => setModalDetalleVisible(false)}
         solicitudSeleccionada={solicitudSeleccionada}
       />
+      {showDatePicker && (
+        <DateTimePicker
+          value={showDatePicker === 'inicio' ? (fechaInicio || new Date()) : (fechaFin || new Date())}
+          mode="date"
+          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+          onChange={(event, date) => {
+            setShowDatePicker(null);
+            if (date) {
+              if (showDatePicker === 'inicio') setFechaInicio(date);
+              else if (showDatePicker === 'fin') setFechaFin(date);
+            }
+          }}
+        />
+      )}
     </View>
   );
 };
