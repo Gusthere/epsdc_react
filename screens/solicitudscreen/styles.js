@@ -19,10 +19,11 @@ export default StyleSheet.create({
   filtroLabel: { fontWeight: 'bold', fontSize: 12 },
   picker: { height: 40, width: '100%' },
   pickerRow: {
-    height: 40,
+    height: 50, // antes probablemente era 36 o 40
     width: '100%',
     backgroundColor: '#f8f8f8',
     borderRadius: 4,
+    justifyContent: 'center', // ayuda a centrar el texto verticalmente
   },
   dateBtn: { borderWidth: 1, borderColor: '#ccc', padding: 6, borderRadius: 4, backgroundColor: '#f8f8f8', marginTop: 2 },
   pdfBtn: { backgroundColor: '#ff4343', padding: 8, borderRadius: 5, marginLeft: 8 },
