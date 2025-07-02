@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import styles from './styles';
 
-const SolicitudFilters = ({
+const RecepcionFilters = ({
   estado, setEstado, estados,
   municipio, setMunicipio, municipios,
   parroquia, setParroquia, parroquias,
@@ -59,4 +59,4 @@ const SolicitudFilters = ({
   </View>
 );
 
-export default SolicitudFilters;
+export default RecepcionFilters;

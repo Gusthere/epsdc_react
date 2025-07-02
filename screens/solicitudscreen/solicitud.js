@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import SolicitudFilters from './solicitudFilters';
+import SolicitudFilters from './solicitudfilters';
 import SolicitudTable from './solicitudtable';
 import PagoModal from './pagomodal';
 import styles from './styles';
+import MainTabs from '../../components/MainTabs';
 import { solicitudesMock, estados, municipios, parroquias, bancos } from './data';
 
 const SolicitudScreen = () => {
@@ -42,6 +43,7 @@ const SolicitudScreen = () => {
 
   return (
     <View style={styles.container}>
+     <MainTabs />
       <Text style={styles.title}>Lista de Solicitudes</Text>
       <SolicitudFilters
         estado={estado} setEstado={setEstado} estados={estados}
