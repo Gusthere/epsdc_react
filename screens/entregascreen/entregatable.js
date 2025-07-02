@@ -2,32 +2,30 @@ import React from 'react';
 import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
-const tableWidth = 700;
+const tableWidth = 640;
 
-const RecepcionTable = ({ recepciones, onRowPress, onFinalizar }) => (
+const EntregaTable = ({ entregas, onRowPress, onFinalizar }) => (
   <ScrollView horizontal>
     <View>
       <View style={[styles.tableHeader, { width: tableWidth }]}>
-        <Text style={[styles.th, { width: 30 }]}>#</Text>
         <Text style={[styles.th, { width: 120 }]}>CONSEJO</Text>
         <Text style={[styles.th, { width: 120 }]}>FECHA DE RECEPCIÓN</Text>
         <Text style={[styles.th, { width: 120 }]}>FECHA DE ENTREGA</Text>
-        <Text style={[styles.th, { width: 110 }]}>EQUIPO</Text>
+        <Text style={[styles.th, { width: 80 }]}>EQUIPO</Text>
         <Text style={[styles.th, { width: 100 }]}>ESTADO</Text>
         <Text style={[styles.th, { width: 100 }]}>FINALIZAR</Text>
       </View>
-      {recepciones.map(item => (
+      {entregas.map(item => (
         <TouchableOpacity
           key={item.id}
           style={[styles.tableRow, { width: tableWidth }]}
           onPress={() => onRowPress(item)}
           activeOpacity={0.7}
         >
-          <Text style={[styles.td, { width: 30 }]}>{item.id}</Text>
           <Text style={[styles.td, { width: 120 }]}>{item.consejo}</Text>
           <Text style={[styles.td, { width: 120 }]}>{item.fechaRecepcion}</Text>
           <Text style={[styles.td, { width: 120 }]}>{item.fechaEntrega}</Text>
-          <Text style={[styles.td, { width: 110 }]}>{item.equipo}</Text>
+          <Text style={[styles.td, { width: 80 }]}>{item.equipo}</Text>
           <View style={[styles.td, { width: 100 }]}>
             <View style={styles.estadoBadge}>
               <Text style={styles.estadoBadgeText}>{item.estado}</Text>
@@ -42,12 +40,9 @@ const RecepcionTable = ({ recepciones, onRowPress, onFinalizar }) => (
                   paddingHorizontal: 12,
                   borderRadius: 6,
                 }}
-                onPress={e => {
-                  e.stopPropagation && e.stopPropagation();
-                  onFinalizar(item.id);
-                }}
+                onPress={() => onFinalizar(item.id)}
               >
-                <Text style={{ color: 'white', fontWeight: 'bold' }}>Finalizar</Text>
+                <Text style={{ color: 'white', fontWeight: 'bold' }}>Finaliza</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -57,4 +52,4 @@ const RecepcionTable = ({ recepciones, onRowPress, onFinalizar }) => (
   </ScrollView>
 );
 
-export default RecepcionTable;
+export default EntregaTable;

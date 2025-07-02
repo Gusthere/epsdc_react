@@ -9,6 +9,7 @@ const MainTabs = () => {
   const tabs = [
     { name: 'recepcion', label: 'Recepción' },
     { name: 'solicitud', label: 'Solicitud' },
+    { name: 'entrega', label: 'Entrega' }, // <-- Añade esta línea
   ];
 
   return (

@@ -1,10 +1,10 @@
 import React from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
 const tableWidth = 520;
 
-const SolicitudTable = ({ solicitudes }) => (
+const SolicitudTable = ({ solicitudes, onRowPress }) => (
   <ScrollView horizontal>
     <View>
       <View style={[styles.tableHeader, { width: tableWidth }]}>
@@ -16,7 +16,12 @@ const SolicitudTable = ({ solicitudes }) => (
         <Text style={[styles.th, { width: 80 }]}>ESTADO</Text>
       </View>
       {solicitudes.map(item => (
-        <View key={item.id} style={[styles.tableRow, { width: tableWidth }]}>
+        <TouchableOpacity
+          key={item.id}
+          style={[styles.tableRow, { width: tableWidth }]}
+          onPress={() => onRowPress(item)}
+          activeOpacity={0.7}
+        >
           <Text style={[styles.td, { width: 30 }]}>{item.id}</Text>
           <Text style={[styles.td, { width: 120 }]}>{item.consejo}</Text>
           <Text style={[styles.td, { width: 100 }]}>{item.fecha}</Text>
@@ -33,7 +38,7 @@ const SolicitudTable = ({ solicitudes }) => (
               <Text style={styles.estadoBadgeText}>{item.estado}</Text>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
   </ScrollView>

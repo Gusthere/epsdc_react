@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity, Image, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
@@ -66,5 +66,26 @@ const PagoModal = ({
     </View>
   </Modal>
 );
+
+const App = () => {
+  const [modalDetalleVisible, setModalDetalleVisible] = useState(false);
+  const [modalPagoVisible, setModalPagoVisible] = useState(false);
+
+  return (
+    // Your main app component code
+    <>
+      <SolicitudModal
+        visible={modalDetalleVisible}
+        cerrarModal={() => setModalDetalleVisible(false)}
+        solicitudSeleccionada={solicitudSeleccionada}
+      />
+      <PagoModal
+        visible={modalPagoVisible}
+        cerrarModal={() => setModalPagoVisible(false)}
+        // ...otros props...
+      />
+    </>
+  );
+};
 
 export default PagoModal;

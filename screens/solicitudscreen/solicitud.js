@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import SolicitudFilters from './solicitudfilters';
 import SolicitudTable from './solicitudtable';
 import PagoModal from './pagomodal';
+import SolicitudModal from './modal';
 import styles from './styles';
 import MainTabs from '../../components/MainTabs';
 import { solicitudesMock, estados, municipios, parroquias, bancos } from './data';
@@ -24,6 +25,7 @@ const SolicitudScreen = () => {
   const [imagen, setImagen] = useState(null);
 
   // Para seleccionar solicitud activa
+  const [modalDetalleVisible, setModalDetalleVisible] = useState(false);
   const [solicitudSeleccionada, setSolicitudSeleccionada] = useState(null);
 
   // Funciones
@@ -31,6 +33,10 @@ const SolicitudScreen = () => {
   const abrirModalPago = (solicitud) => {
     setSolicitudSeleccionada(solicitud);
     setModalVisible(true);
+  };
+  const abrirModalDetalle = (solicitud) => {
+    setSolicitudSeleccionada(solicitud);
+    setModalDetalleVisible(true);
   };
   const cerrarModal = () => {
     setModalVisible(false);
@@ -52,7 +58,10 @@ const SolicitudScreen = () => {
         fechaInicio={fechaInicio} setShowDatePicker={setShowDatePicker}
         fechaFin={fechaFin} exportarPDF={exportarPDF}
       />
-      <SolicitudTable solicitudes={solicitudesMock} />
+      <SolicitudTable
+        solicitudes={solicitudesMock}
+        onRowPress={abrirModalDetalle}
+      />
       <PagoModal
         visible={modalVisible}
         cerrarModal={cerrarModal}
@@ -67,6 +76,11 @@ const SolicitudScreen = () => {
         setShowDatePicker={setShowDatePicker}
         imagen={imagen}
         setImagen={setImagen}
+      />
+      <SolicitudModal
+        visible={modalDetalleVisible}
+        cerrarModal={() => setModalDetalleVisible(false)}
+        solicitudSeleccionada={solicitudSeleccionada}
       />
     </View>
   );
