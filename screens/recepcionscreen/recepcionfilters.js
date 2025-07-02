@@ -32,7 +32,7 @@ const RecepcionFilters = ({
         </Picker>
       </View>
     </View>
-    {/* Fila de fecha y PDF */}
+    {/* Fila de fechas y PDF */}
     <View style={styles.filtrosRow}>
       <View style={styles.filtroItem}>
         <Text style={styles.filtroLabel}>De:</Text>
