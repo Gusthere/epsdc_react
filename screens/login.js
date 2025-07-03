@@ -62,12 +62,7 @@ const LoginScreen = ({ navigation }) => {
           <Button title="Iniciar Sesión" onPress={handleLogin} />
           <View>
             <Link onPress={() => navigation.navigate("recuperar_cuenta")}>
-              Pedir otro código!
-            </Link>
-          </View>
-          <View>
-            <Link onPress={() => navigation.navigate("codigo")}>
-              Tengo el código!
+              ¿Olvido su Contraseña?
             </Link>
           </View>
         </Card>
