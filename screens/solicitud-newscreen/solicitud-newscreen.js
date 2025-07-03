@@ -1,54 +1,116 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { useNavigation } from '@react-navigation/native';
-import styles from './styles';
-import MainTabs from '../../components/MainTabs';
-/*import Footer from '../../components/Footer';*/
-
-const consejosMock = [
-  { label: 'Seleccione Consejo Comunal', value: '' },
-  { label: 'Consejo 1', value: '1' },
-  { label: 'Consejo 2', value: '2' },
-  // ...otros consejos
-];
+// === screens/solicitud-newscreen/solicitud-newscreen.js ===
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Platform,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { useNavigation } from "@react-navigation/native";
+import styles from "./styles";
+import MainTabs from "../../components/MainTabs";
+import apiClient from "../../api/apiClient";
+import { csrfRequest } from "../../utils/csrfRequest";
 
 const SolicitudNewScreen = () => {
   const navigation = useNavigation();
-  const [consejo, setConsejo] = useState('');
-  const [ciliP, setCiliP] = useState('');
-  const [ciliM, setCiliM] = useState('');
-  const [ciliMG, setCiliMG] = useState('');
-  const [ciliG, setCiliG] = useState('');
-  const [precio, setPrecio] = useState('');
+  const [consejo, setConsejo] = useState("");
+  const [ciliP, setCiliP] = useState("");
+  const [ciliM, setCiliM] = useState("");
+  const [ciliMG, setCiliMG] = useState("");
+  const [ciliG, setCiliG] = useState("");
+  const [precio, setPrecio] = useState("");
+  const [consejos, setConsejos] = useState([
+    { label: "Cargando...", value: "" },
+  ]);
+  const [preciosCilindros, setPreciosCilindros] = useState({});
 
-  // Calcula el total automáticamente
-  React.useEffect(() => {
+  useEffect(() => {
+    const fetchConsejos = async () => {
+      try {
+        const response = await apiClient.get("/vocero/disponibles");
+        const data = response.data.attachment.registros;
+        const formatted = Object.entries(data).map(([label, value]) => ({
+          label,
+          value,
+        }));
+        setConsejos([
+          { label: "Seleccione Consejo Comunal", value: "" },
+          ...formatted,
+        ]);
+      } catch (error) {
+        console.error("Error al cargar consejos comunales:", error);
+        setConsejos([{ label: "Error al cargar", value: "" }]);
+      }
+    };
+
+    const fetchPrecios = async () => {
+      try {
+        const response = await apiClient.get("/cilindro/precio");
+        const precios = {};
+        response.data.attachment.registros.forEach(({ peso, precio }) => {
+          precios[peso] = precio;
+        });
+        setPreciosCilindros(precios);
+      } catch (error) {
+        console.error("Error al obtener precios:", error);
+      }
+    };
+
+    fetchConsejos();
+    fetchPrecios();
+    csrfRequest("GET", "/usuario/csrf");
+  }, []);
+
+  useEffect(() => {
     const total =
-      (parseInt(ciliP) || 0) +
-      (parseInt(ciliM) || 0) +
-      (parseInt(ciliMG) || 0) +
-      (parseInt(ciliG) || 0);
+      parseInt(ciliP || 0) * (preciosCilindros[10] || 0) +
+      parseInt(ciliM || 0) * (preciosCilindros[18] || 0) +
+      parseInt(ciliMG || 0) * (preciosCilindros[27] || 0) +
+      parseInt(ciliG || 0) * (preciosCilindros[43] || 0);
     setPrecio(total);
-  }, [ciliP, ciliM, ciliMG, ciliG]);
+  }, [ciliP, ciliM, ciliMG, ciliG, preciosCilindros]);
 
   const limpiar = () => {
-    setConsejo('');
-    setCiliP('');
-    setCiliM('');
-    setCiliMG('');
-    setCiliG('');
-    setPrecio('');
+    setConsejo("");
+    setCiliP("");
+    setCiliM("");
+    setCiliMG("");
+    setCiliG("");
+    setPrecio("");
   };
 
-  const agregar = () => {
-    alert('Solicitud agregada');
-    limpiar();
+  const agregar = async () => {
+    try {
+      const payload = {
+        vocero: consejo,
+        ciliP: ciliP,
+        ciliM: ciliM,
+        ciliMG: ciliMG,
+        ciliG: ciliG,
+      };
+      
+      await csrfRequest("POST", "/solicitud/crear", payload);
+
+      alert("Solicitud agregada");
+      limpiar();
+    } catch (error) {
+      if (error.response) {
+      } else {
+        console.log("Error sin respuesta:", error.message);
+      }
+
+      alert("Ocurrió un error al enviar la solicitud.");
+      console.error("Error al agregar solicitud:", error);
+      alert("Ocurrió un error al enviar la solicitud.");
+    }
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-     
+    <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
         <MainTabs />
         <Text style={styles.title}>Agregar Solicitud</Text>
@@ -59,11 +121,11 @@ const SolicitudNewScreen = () => {
             onValueChange={setConsejo}
             style={styles.pickerRow}
           >
-            {consejosMock.map((c) => (
+            {consejos.map((c) => (
               <Picker.Item key={c.value} label={c.label} value={c.value} />
             ))}
           </Picker>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
             <View style={styles.inputGroup}>
               <Text style={styles.filtroLabel}>Cilindros 10kg</Text>
               <TextInput
@@ -108,37 +170,45 @@ const SolicitudNewScreen = () => {
           <View style={styles.inputGroup}>
             <Text style={styles.filtroLabel}>Total</Text>
             <TextInput
-              style={[styles.input, { backgroundColor: '#eee' }]}
+              style={[styles.input, { backgroundColor: "#eee" }]}
               value={precio.toString()}
               editable={false}
               placeholder="Total"
             />
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 24, gap: 12 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              marginTop: 24,
+              gap: 12,
+            }}
+          >
             <TouchableOpacity style={styles.limpiarBtn} onPress={limpiar}>
-              <Text style={{ color: 'white' }}>Limpiar</Text>
+              <Text style={{ color: "white" }}>Limpiar</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.agregarBtn} onPress={agregar}>
-              <Text style={{ color: 'white' }}>Agregar</Text>
+              <Text style={{ color: "white" }}>Agregar</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{ alignItems: 'center', marginTop: 24 }}>
+        <View style={{ alignItems: "center", marginTop: 24 }}>
           <TouchableOpacity
             style={{
-              backgroundColor: '#007bff',
+              backgroundColor: "#007bff",
               paddingVertical: 12,
               paddingHorizontal: 32,
               borderRadius: 24,
-              alignItems: 'center',
+              alignItems: "center",
             }}
-            onPress={() => navigation.navigate('solicitud')}
+            onPress={() => navigation.navigate("solicitud")}
           >
-            <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>Regresar</Text>
+            <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
+              Regresar
+            </Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-     {/*<Footer />*/}
     </View>
   );
 };

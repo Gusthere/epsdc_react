@@ -4,56 +4,39 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import Card from "../components/Card";
 import Link from "../components/link2";
-import axios from "axios";
 import useCustomValidation from "../components/hooks/useCustomValidation";
+import { setTokens } from "../utils/tokenStorage";
+import apiClient from "../api/apiClient";
+import { useAuthStartup } from "../hooks/useAuthStartup";
 
 const LoginScreen = ({ navigation }) => {
   const [dni, setDni] = useState("");
   const [password, setPassword] = useState("");
-  const { errors } = useCustomValidation(dni, password); // Pasar dni y password al hook
+  const { errors } = useCustomValidation(dni, password);
+
+  // Ejecutar chequeo de sesión al montar
+  useAuthStartup(navigation);
 
   const handleLogin = async () => {
-    if (Object.keys(errors).length === 0 && (dni != "" || password != "")) {
-      // Solo proceder si no hay errores
-      axios
-        .get("info.json")
-        .then((response) => {
-          alert("Bienvenido de vuelta");
-          navigation.navigate("solicitud"); // Navegar a 'solicitud' después del login exitoso
-        })
-        .catch((error) => {
-          alert("Bienvenido de vuelta");
-          navigation.navigate("solicitud"); // Navegar a 'solicitud' después del login exitoso
+    if (Object.keys(errors).length === 0 && dni !== "" && password !== "") {
+      try {
+        const response = await apiClient.post("/login", {
+          cedula: dni,
+          clave: password,
         });
+
+        const { AccessToken, RefreshToken } = response.data.attachment;
+        await setTokens(AccessToken, RefreshToken);
+
+        alert("Login exitoso");
+        navigation.reset({ index: 0, routes: [{ name: "solicitud" }] });
+      } catch (error) {
+        alert("Error al iniciar sesión. Verifica tus credenciales.");
+      }
     } else {
-      console.log("Datos incompletos");
+      alert("Por favor completa los campos correctamente");
     }
   };
-  /* Api
-      try {
-        const formData = new FormData();
-        formData.append("cedula", dni);
-        formData.append("clave", password);
-        const response = await axios.post(
-          "http://192.168.56.1/Codigo/EPSDC-API/login",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        console.log(1);
-        alert(response.data.attachment.token);
-        Alert.alert("Login exitoso", `Bienvenido ${response.data.username}`);
-        console.log(1);
-      } catch (error) {
-        console.log(2);
-        Alert.alert("Error", "Error al iniciar sesión");
-        console.log(2);
-        console.log(error.response);
-      }
-      */
 
   return (
     <View style={styles.containerPrincipal}>
@@ -75,16 +58,14 @@ const LoginScreen = ({ navigation }) => {
             placeholder="Contraseña"
             secureTextEntry
           />
-          {errors.password && (
-            <Text style={styles.error}>{errors.password}</Text>
-          )}
+          {errors.password && <Text style={styles.error}>{errors.password}</Text>}
           <Button title="Iniciar Sesión" onPress={handleLogin} />
           <View>
             <Link onPress={() => navigation.navigate("recuperar_cuenta")}>
               Pedir otro código!
             </Link>
           </View>
-          <View >
+          <View>
             <Link onPress={() => navigation.navigate("codigo")}>
               Tengo el código!
             </Link>
