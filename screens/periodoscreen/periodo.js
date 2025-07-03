@@ -7,7 +7,7 @@ import styles from './styles';
 import MainTabs from '../../components/MainTabs';
 import { periodosMock, estados, municipios, parroquias } from './data';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Footer from '../../components/Footer';
+/*import Footer from '../../components/Footer';*/
 
 const PeriodoScreen = () => {
   const [estado, setEstado] = useState('');
@@ -119,7 +119,7 @@ const PeriodoScreen = () => {
           )}
         </View>
       </ScrollView>
-      <Footer />
+       {/*<Footer />*/}
     </View>
   );
 };

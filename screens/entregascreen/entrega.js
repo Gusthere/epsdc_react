@@ -8,7 +8,7 @@ import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import MainTabs from '../../components/MainTabs';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Platform } from 'react-native';
-import Footer from '../../components/Footer';
+/*import Footer from '../../components/Footer';*/
 
 const EntregaScreen = () => {
   // Filtros
@@ -122,7 +122,7 @@ const EntregaScreen = () => {
           )}
         </View>
       </ScrollView>
-      <Footer />
+      {/*<Footer />*/}
     </View>
   );
 };

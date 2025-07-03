@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 import MainTabs from '../../components/MainTabs';
-import Footer from '../../components/Footer';
+/*import Footer from '../../components/Footer';*/
 
 const consejosMock = [
   { label: 'Seleccione Consejo Comunal', value: '' },
@@ -138,7 +138,7 @@ const SolicitudNewScreen = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <Footer />
+     {/*<Footer />*/}
     </View>
   );
 };

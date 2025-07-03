@@ -7,7 +7,7 @@ import { recepcionesMock, estados, municipios, parroquias } from './data';
 import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import MainTabs from '../../components/MainTabs';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Footer from '../../components/Footer';
+/*import Footer from '../../components/Footer';*/
 
 const RecepcionScreen = () => {
   // Filtros
@@ -121,7 +121,7 @@ const RecepcionScreen = () => {
           )}
         </View>
       </ScrollView>
-      <Footer />
+  {/*<Footer />*/}
     </View>
   );
 };

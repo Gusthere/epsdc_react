@@ -7,7 +7,7 @@ import PagoModal from './pagomodal';
 import SolicitudModal from './modal';
 import styles from './styles';
 import MainTabs from '../../components/MainTabs';
-import Footer from '../../components/Footer';
+/*import Footer from '../../components/Footer';*/
 import { solicitudesMock, estados, municipios, parroquias, bancos } from './data';
 import { useNavigation } from '@react-navigation/native';
 
@@ -127,7 +127,7 @@ const SolicitudScreen = () => {
           </View>
         </View>
       </ScrollView>
-      <Footer />
+       {/*<Footer />*/}
     </View>
   );
 };
