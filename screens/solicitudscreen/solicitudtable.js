@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
-const tableWidth = 630;
+const tableWidth = 540;
 
 const SolicitudTable = ({ solicitudes, onRowPress }) => (
   <ScrollView horizontal showsHorizontalScrollIndicator={false}>
