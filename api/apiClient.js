@@ -1,7 +1,13 @@
 import axios from "axios";
 import { API_BASE_URL } from "../config/urlAPI";
-import { getAccessToken, getRefreshToken, setTokens, clearTokens } from "../utils/tokenStorage";
+import {
+  getAccessToken,
+  getRefreshToken,
+  setTokens,
+  clearTokens,
+} from "../utils/tokenStorage";
 import { refreshAccessToken } from "../services/authService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -22,7 +28,12 @@ apiClient.interceptors.response.use(
   (response) => {
     const newCsrf = response.headers["x-csrf-token"];
     if (newCsrf) {
-      localStorage.setItem("csrfToken", newCsrf); // solo web por simplicidad
+      if (Platform.OS === "web") {
+        localStorage.setItem("csrfToken", newCsrf);
+      } else {
+        AsyncStorage.setItem("csrfToken", newCsrf);
+      }
+      // solo web por simplicidad
     }
     return response;
   },
@@ -38,7 +49,9 @@ apiClient.interceptors.response.use(
         const newTokens = await refreshAccessToken();
         await setTokens(newTokens.AccessToken, newTokens.RefreshToken);
 
-        originalRequest.headers["Authorization"] = `Bearer ${newTokens.AccessToken}`;
+        originalRequest.headers[
+          "Authorization"
+        ] = `Bearer ${newTokens.AccessToken}`;
         return apiClient(originalRequest);
       } catch {
         await clearTokens();
