@@ -27,7 +27,7 @@ export const entregasMock = [
   },
   {
     id: 2,
-    consejo: 'JOPO CONSEJO',
+    consejo: 'ñema consejo',
     fechaRecepcion: '24/11/2024',
     fechaEntrega: '24/11/2024',
     equipo: '13',
@@ -35,6 +35,22 @@ export const entregasMock = [
   },
   {
     id: 3,
+    consejo: 'zed te amo',
+    fechaRecepcion: '24/11/2024',
+    fechaEntrega: '24/11/2024',
+    equipo: '13',
+    estado: 'EN PROCESO'
+  },
+  {
+    id: 4,
+    consejo: 'huilhquher',
+    fechaRecepcion: '24/11/2024',
+    fechaEntrega: '24/11/2024',
+    equipo: '13',
+    estado: 'EN PROCESO'
+  },
+  {
+    id: 5,
     consejo: 'JOPO CONSEJO',
     fechaRecepcion: '24/11/2024',
     fechaEntrega: '24/11/2024',

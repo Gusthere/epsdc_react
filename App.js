@@ -6,8 +6,10 @@ import RecuperarForm from "./screens/recuperar_cuenta";
 import CodigoForm from "./screens/codigo";
 import LoginScreen from "./screens/login";
 import SolicitudScreen from "./screens/solicitudscreen/solicitud";
+import SolicitudNewScreen from "./screens/solicitud-newscreen/solicitud-newscreen";
 import RecepcionScreen from "./screens/recepcionscreen/recepcion";
 import EntregaScreen from "./screens/entregascreen/entrega";
+import PeriodoScreen from "./screens/periodoscreen/periodo";
 import { alertConfigs } from "./components/hooks/alertConfigs"; // Importa las configuraciones de alertas
 
 const Stack = createStackNavigator();
@@ -72,6 +74,7 @@ const Navegador = () => {
           </Stack.Screen>
           <Stack.Screen
             name="solicitud"
+            component={SolicitudScreen}
             options={{
               title: "Solicitud",
               headerStyle: {
@@ -81,9 +84,20 @@ const Navegador = () => {
               },
               headerTintColor: "#FFFFFF",
             }}
-          >
-            {(props) => <SolicitudScreen {...props} />}
-          </Stack.Screen>
+          />
+          <Stack.Screen
+            name="solicitud-new"
+            component={SolicitudNewScreen}
+            options={{
+              title: "Nueva Solicitud",
+              headerStyle: {
+                backgroundColor: "#5478ff",
+                borderBottomWidth: 1,
+                borderBottomColor: "#ffffff",
+              },
+              headerTintColor: "#FFFFFF",
+            }}
+          />
           <Stack.Screen
             name="recepcion"
             options={{
@@ -111,6 +125,20 @@ const Navegador = () => {
             }}
           >
             {(props) => <EntregaScreen {...props} />}
+          </Stack.Screen>
+          <Stack.Screen
+            name="periodo"
+            options={{
+              title: "Periodo",
+              headerStyle: {
+                backgroundColor: "#5478ff",
+                borderBottomWidth: 1,
+                borderBottomColor: "#ffffff",
+              },
+              headerTintColor: "#FFFFFF",
+            }}
+          >
+            {(props) => <PeriodoScreen {...props} />}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

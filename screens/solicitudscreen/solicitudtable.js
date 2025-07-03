@@ -1,11 +1,11 @@
 import React from 'react';
-import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
-const tableWidth = 520;
+const tableWidth = 630;
 
 const SolicitudTable = ({ solicitudes, onRowPress }) => (
-  <ScrollView horizontal>
+  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
     <View>
       <View style={[styles.tableHeader, { width: tableWidth }]}>
         <Text style={[styles.th, { width: 30 }]}>#</Text>

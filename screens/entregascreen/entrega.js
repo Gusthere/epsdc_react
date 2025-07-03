@@ -4,7 +4,7 @@ import EntregaTable from './entregatable';
 import EntregaModal from './modal';
 import styles from './styles';
 import { entregasMock, estados, municipios, parroquias } from './data';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import MainTabs from '../../components/MainTabs';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Platform } from 'react-native';
@@ -18,6 +18,8 @@ const EntregaScreen = () => {
   const [fechaFin, setFechaFin] = useState(null);
   const [entregas, setEntregas] = useState(entregasMock);
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [pagina, setPagina] = useState(1);
+  const registrosPorPagina = 4;
 
   // Modal
   const [modalVisible, setModalVisible] = useState(false);
@@ -43,6 +45,13 @@ const EntregaScreen = () => {
     );
   };
 
+  // Paginación
+  const entregasPaginadas = entregas.slice(
+    (pagina - 1) * registrosPorPagina,
+    pagina * registrosPorPagina
+  );
+  const totalPaginas = Math.ceil(entregas.length / registrosPorPagina);
+
   return (
     <View style={styles.container}>
       <MainTabs />
@@ -55,10 +64,40 @@ const EntregaScreen = () => {
         fechaFin={fechaFin} exportarPDF={exportarPDF}
       />
       <EntregaTable
-        entregas={entregas}
+        entregas={entregasPaginadas}
         onRowPress={abrirModal}
         onFinalizar={finalizarEntrega}
       />
+      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 12 }}>
+        <TouchableOpacity
+          onPress={() => setPagina(p => Math.max(1, p - 1))}
+          disabled={pagina === 1}
+          style={{
+            padding: 8,
+            backgroundColor: pagina === 1 ? '#ccc' : '#5478ff',
+            borderRadius: 4,
+            marginHorizontal: 8,
+          }}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Anterior</Text>
+        </TouchableOpacity>
+        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+          {pagina} / {totalPaginas}
+        </Text>
+        <TouchableOpacity
+          onPress={() => setPagina(p => Math.min(totalPaginas, p + 1))}
+          disabled={pagina === totalPaginas}
+          style={{
+            padding: 8,
+            backgroundColor: pagina === totalPaginas ? '#ccc' : '#5478ff',
+            borderRadius: 4,
+            marginHorizontal: 8,
+            marginVertical: 70
+          }}
+        >
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>Siguiente</Text>
+        </TouchableOpacity>
+      </View>
       <EntregaModal
         visible={modalVisible}
         cerrarModal={cerrarModal}

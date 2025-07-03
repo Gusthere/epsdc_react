@@ -33,5 +33,29 @@ export const recepcionesMock = [
     equipo: 'Tablet',
     estado: 'PENDIENTE'
   },
+  {
+    id: 3,
+    consejo: 'CONSEJO C',
+    fechaRecepcion: '10/06/2025',
+    fechaEntrega: '12/06/2025',
+    equipo: 'Laptop',
+    estado: 'ENTREGADO'
+  },
+  {
+    id: 4,
+    consejo: 'CONSEJO D',
+    fechaRecepcion: '11/06/2025',
+    fechaEntrega: '13/06/2025',
+    equipo: 'Tablet',
+    estado: 'PENDIENTE'
+  },
+  {
+    id: 5,
+    consejo: 'CONSEJO E',
+    fechaRecepcion: '11/06/2025',
+    fechaEntrega: '13/06/2025',
+    equipo: 'Tablet',
+    estado: 'PENDIENTE'
+  },
   // ...agrega más si quieres...
 ];

@@ -10,6 +10,7 @@ const MainTabs = () => {
     { name: 'recepcion', label: 'Recepción' },
     { name: 'solicitud', label: 'Solicitud' },
     { name: 'entrega', label: 'Entrega' }, // <-- Añade esta línea
+     { name: 'periodo', label: 'Periodo' }, 
   ];
 
   return (

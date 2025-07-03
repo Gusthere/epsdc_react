@@ -1,73 +1,71 @@
 import React, { useState } from 'react';
-import RecepcionFilters from './recepcionfilters';
-import RecepcionTable from './recepciontable';
-import RecepcionModal from './modal';
+import { View, Text, Platform, TouchableOpacity } from 'react-native';
+import PeriodoFilters from './periodofilters';
+import PeriodoTable from './periodotable';
+import PeriodoModal from './modal';
 import styles from './styles';
-import { recepcionesMock, estados, municipios, parroquias } from './data';
-import { View, Text, TouchableOpacity } from 'react-native';
 import MainTabs from '../../components/MainTabs';
+import { periodosMock, estados, municipios, parroquias } from './data';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const RecepcionScreen = () => {
-  // Filtros
+const PeriodoScreen = () => {
   const [estado, setEstado] = useState('');
   const [municipio, setMunicipio] = useState('');
   const [parroquia, setParroquia] = useState('');
+  const [periodos, setPeriodos] = useState(periodosMock);
+  const [showDatePicker, setShowDatePicker] = useState(null);
   const [fechaInicio, setFechaInicio] = useState(null);
   const [fechaFin, setFechaFin] = useState(null);
-  const [recepciones, setRecepciones] = useState(recepcionesMock);
-  const [showDatePicker, setShowDatePicker] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [periodoSeleccionado, setPeriodoSeleccionado] = useState(null);
+  const [parroquiaCerrar, setParroquiaCerrar] = useState('');
   const [pagina, setPagina] = useState(1);
   const registrosPorPagina = 4;
+  const parroquiasCerrar = parroquias; // O usa otro array si es diferente
 
-  // Modal
-  const [modalVisible, setModalVisible] = useState(false);
-  const [recepcionSeleccionada, setRecepcionSeleccionada] = useState(null);
-
-  // Funciones
+  // Función para exportar PDF
   const exportarPDF = () => alert('Función de exportar PDF');
-  const abrirModal = (recepcion) => {
-    setRecepcionSeleccionada(recepcion);
+
+  const abrirModal = (periodo) => {
+    setPeriodoSeleccionado(periodo);
     setModalVisible(true);
   };
   const cerrarModal = () => {
     setModalVisible(false);
-    setRecepcionSeleccionada(null);
+    setPeriodoSeleccionado(null);
   };
 
-  // Acción para finalizar
-  const finalizarRecepcion = (id) => {
-    setRecepciones(prev =>
-      prev.map(r =>
-        r.id === id ? { ...r, estado: 'ENTREGADO' } : r
-      )
-    );
+  const onIniciar = () => {
+    alert('Función para iniciar periodo');
+  };
+
+  const onCerrar = () => {
+    alert('Función para cerrar periodo');
   };
 
   // Paginación
-  const recepcionesPaginadas = recepciones.slice(
+  const periodosPaginados = periodos.slice(
     (pagina - 1) * registrosPorPagina,
     pagina * registrosPorPagina
   );
-  const totalPaginas = Math.ceil(recepciones.length / registrosPorPagina);
+  const totalPaginas = Math.ceil(periodos.length / registrosPorPagina);
 
   return (
     <View style={styles.container}>
       <MainTabs />
-      <Text style={styles.title}>Lista de Recepciones</Text>
-      <RecepcionFilters
-         estado={estado} setEstado={setEstado} estados={estados}
-  municipio={municipio} setMunicipio={setMunicipio} municipios={municipios}
-  parroquia={parroquia} setParroquia={setParroquia} parroquias={parroquias}
-  fechaInicio={fechaInicio} setShowDatePicker={setShowDatePicker} // <-- aquí el cambio
-  fechaFin={fechaFin} exportarPDF={exportarPDF}
+      <Text style={styles.title}>Periodo</Text>
+      <PeriodoFilters
+        estado={estado} setEstado={setEstado} estados={estados}
+        municipio={municipio} setMunicipio={setMunicipio} municipios={municipios}
+        parroquia={parroquia} setParroquia={setParroquia} parroquias={parroquias}
+        parroquiaCerrar={parroquiaCerrar} setParroquiaCerrar={setParroquiaCerrar} parroquiasCerrar={parroquiasCerrar}
+        fechaInicio={fechaInicio} setShowDatePicker={setShowDatePicker}
+        fechaFin={fechaFin} exportarPDF={exportarPDF}
+        onIniciar={onIniciar}
+        onCerrar={onCerrar}
       />
-      <RecepcionTable
-        recepciones={recepcionesPaginadas}
-        onRowPress={abrirModal}
-        onFinalizar={finalizarRecepcion}
-      />
-      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
+      <PeriodoTable periodos={periodosPaginados} onRowPress={abrirModal} />
+      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 12 }}>
         <TouchableOpacity
           onPress={() => setPagina(p => Math.max(1, p - 1))}
           disabled={pagina === 1}
@@ -91,16 +89,16 @@ const RecepcionScreen = () => {
             backgroundColor: pagina === totalPaginas ? '#ccc' : '#5478ff',
             borderRadius: 4,
             marginHorizontal: 8,
-            marginVertical: 70
+            marginVertical: 26,
           }}
         >
           <Text style={{ color: 'white', fontWeight: 'bold' }}>Siguiente</Text>
         </TouchableOpacity>
       </View>
-      <RecepcionModal
+      <PeriodoModal
         visible={modalVisible}
         cerrarModal={cerrarModal}
-        recepcionSeleccionada={recepcionSeleccionada}
+        periodoSeleccionado={periodoSeleccionado}
       />
       {showDatePicker && (
         <DateTimePicker
@@ -120,4 +118,4 @@ const RecepcionScreen = () => {
   );
 };
 
-export default RecepcionScreen;
+export default PeriodoScreen;

@@ -5,7 +5,7 @@ import styles from './styles';
 const tableWidth = 640;
 
 const EntregaTable = ({ entregas, onRowPress, onFinalizar }) => (
-  <ScrollView horizontal>
+  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
     <View>
       <View style={[styles.tableHeader, { width: tableWidth }]}>
         <Text style={[styles.th, { width: 120 }]}>CONSEJO</Text>

@@ -73,5 +73,26 @@ export const solicitudesMock = [
     ],
     total: '950 Bs',
     estado: 'PENDIENTE'
+  },
+  {
+    id: 6,
+    consejo: 'tu mamaa',
+    fecha: '16/05/2025',
+    referencias: [
+      { valor: '5011565854', color: '#20c997' }
+    ],
+    total: '950 Bs',
+    estado: 'PENDIENTE'
+  }
+  ,
+  {
+    id: 7,
+    consejo: 'tu mam',
+    fecha: '16/05/2025',
+    referencias: [
+      { valor: '5011565854', color: '#20c997' }
+    ],
+    total: '950 Bs',
+    estado: 'PENDIENTE'
   }
 ];
