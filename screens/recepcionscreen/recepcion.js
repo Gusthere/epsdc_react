@@ -4,9 +4,10 @@ import RecepcionTable from './recepciontable';
 import RecepcionModal from './modal';
 import styles from './styles';
 import { recepcionesMock, estados, municipios, parroquias } from './data';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
 import MainTabs from '../../components/MainTabs';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Footer from '../../components/Footer';
 
 const RecepcionScreen = () => {
   // Filtros
@@ -52,70 +53,75 @@ const RecepcionScreen = () => {
   const totalPaginas = Math.ceil(recepciones.length / registrosPorPagina);
 
   return (
-    <View style={styles.container}>
-      <MainTabs />
-      <Text style={styles.title}>Lista de Recepciones</Text>
-      <RecepcionFilters
-         estado={estado} setEstado={setEstado} estados={estados}
-  municipio={municipio} setMunicipio={setMunicipio} municipios={municipios}
-  parroquia={parroquia} setParroquia={setParroquia} parroquias={parroquias}
-  fechaInicio={fechaInicio} setShowDatePicker={setShowDatePicker} // <-- aquí el cambio
-  fechaFin={fechaFin} exportarPDF={exportarPDF}
-      />
-      <RecepcionTable
-        recepciones={recepcionesPaginadas}
-        onRowPress={abrirModal}
-        onFinalizar={finalizarRecepcion}
-      />
-      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
-        <TouchableOpacity
-          onPress={() => setPagina(p => Math.max(1, p - 1))}
-          disabled={pagina === 1}
-          style={{
-            padding: 8,
-            backgroundColor: pagina === 1 ? '#ccc' : '#5478ff',
-            borderRadius: 4,
-            marginHorizontal: 8,
-          }}
-        >
-          <Text style={{ color: 'white', fontWeight: 'bold' }}>Anterior</Text>
-        </TouchableOpacity>
-        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
-          {pagina} / {totalPaginas}
-        </Text>
-        <TouchableOpacity
-          onPress={() => setPagina(p => Math.min(totalPaginas, p + 1))}
-          disabled={pagina === totalPaginas}
-          style={{
-            padding: 8,
-            backgroundColor: pagina === totalPaginas ? '#ccc' : '#5478ff',
-            borderRadius: 4,
-            marginHorizontal: 8,
-            marginVertical: 70
-          }}
-        >
-          <Text style={{ color: 'white', fontWeight: 'bold' }}>Siguiente</Text>
-        </TouchableOpacity>
-      </View>
-      <RecepcionModal
-        visible={modalVisible}
-        cerrarModal={cerrarModal}
-        recepcionSeleccionada={recepcionSeleccionada}
-      />
-      {showDatePicker && (
-        <DateTimePicker
-          value={showDatePicker === 'inicio' ? (fechaInicio || new Date()) : (fechaFin || new Date())}
-          mode="date"
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={(event, date) => {
-            setShowDatePicker(null);
-            if (date) {
-              if (showDatePicker === 'inicio') setFechaInicio(date);
-              else if (showDatePicker === 'fin') setFechaFin(date);
-            }
-          }}
-        />
-      )}
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
+        <View style={{ flex: 1, paddingBottom: 60, paddingHorizontal: 12 }}>
+          <MainTabs />
+          <Text style={styles.title}>Lista de Recepciones</Text>
+          <RecepcionFilters
+            estado={estado} setEstado={setEstado} estados={estados}
+            municipio={municipio} setMunicipio={setMunicipio} municipios={municipios}
+            parroquia={parroquia} setParroquia={setParroquia} parroquias={parroquias}
+            fechaInicio={fechaInicio} setShowDatePicker={setShowDatePicker}
+            fechaFin={fechaFin} exportarPDF={exportarPDF}
+          />
+          <RecepcionTable
+            recepciones={recepcionesPaginadas}
+            onRowPress={abrirModal}
+            onFinalizar={finalizarRecepcion}
+          />
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 8 }}>
+            <TouchableOpacity
+              onPress={() => setPagina(p => Math.max(1, p - 1))}
+              disabled={pagina === 1}
+              style={{
+                padding: 8,
+                backgroundColor: pagina === 1 ? '#ccc' : '#5478ff',
+                borderRadius: 4,
+                marginHorizontal: 8,
+              }}
+            >
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>Anterior</Text>
+            </TouchableOpacity>
+            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
+              {pagina} / {totalPaginas}
+            </Text>
+            <TouchableOpacity
+              onPress={() => setPagina(p => Math.min(totalPaginas, p + 1))}
+              disabled={pagina === totalPaginas}
+              style={{
+                padding: 8,
+                backgroundColor: pagina === totalPaginas ? '#ccc' : '#5478ff',
+                borderRadius: 4,
+                marginHorizontal: 8,
+                marginVertical: 70
+              }}
+            >
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>Siguiente</Text>
+            </TouchableOpacity>
+          </View>
+          <RecepcionModal
+            visible={modalVisible}
+            cerrarModal={cerrarModal}
+            recepcionSeleccionada={recepcionSeleccionada}
+          />
+          {showDatePicker && (
+            <DateTimePicker
+              value={showDatePicker === 'inicio' ? (fechaInicio || new Date()) : (fechaFin || new Date())}
+              mode="date"
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              onChange={(event, date) => {
+                setShowDatePicker(null);
+                if (date) {
+                  if (showDatePicker === 'inicio') setFechaInicio(date);
+                  else if (showDatePicker === 'fin') setFechaFin(date);
+                }
+              }}
+            />
+          )}
+        </View>
+      </ScrollView>
+      <Footer />
     </View>
   );
 };

@@ -78,7 +78,7 @@ const Navegador = () => {
             options={{
               title: "Solicitud",
               headerStyle: {
-                backgroundColor: "#5478ff",
+                backgroundColor: "#ff4343",
                 borderBottomWidth: 1,
                 borderBottomColor: "#ffffff",
               },
@@ -91,7 +91,7 @@ const Navegador = () => {
             options={{
               title: "Nueva Solicitud",
               headerStyle: {
-                backgroundColor: "#5478ff",
+                backgroundColor: "#ff4343",
                 borderBottomWidth: 1,
                 borderBottomColor: "#ffffff",
               },
@@ -103,7 +103,7 @@ const Navegador = () => {
             options={{
               title: "Recepción",
               headerStyle: {
-                backgroundColor: "#5478ff",
+                backgroundColor: "#ff4343",
                 borderBottomWidth: 1,
                 borderBottomColor: "#ffffff",
               },
@@ -117,7 +117,7 @@ const Navegador = () => {
             options={{
               title: "Entrega",
               headerStyle: {
-                backgroundColor: "#5478ff",
+                backgroundColor: "#ff4343",
                 borderBottomWidth: 1,
                 borderBottomColor: "#ffffff",
               },
@@ -131,7 +131,7 @@ const Navegador = () => {
             options={{
               title: "Periodo",
               headerStyle: {
-                backgroundColor: "#5478ff",
+                backgroundColor: "#ff4343",
                 borderBottomWidth: 1,
                 borderBottomColor: "#ffffff",
               },

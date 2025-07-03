@@ -3,7 +3,8 @@ export const periodosMock = [
   { parroquia: 'Cuara', inicio: '24/05/2025', final: 'ACTIVO', diasActivo: 39, color: 'green' },
   { parroquia: 'Diego de Lozada', inicio: '24/05/2025', final: 'ACTIVO', diasActivo: 39, color: 'green' },
    { parroquia: 'arepa de Lozada', inicio: '24/05/2025', final: 'ACTIVO', diasActivo: 39, color: 'green' },
-    { parroquia: 'ñema de Lozada', inicio: '24/05/2025', final: 'ACTIVO', diasActivo: 39, color: 'green' }
+    { parroquia: 'ñema de Lozada', inicio: '24/05/2025', final: 'ACTIVO', diasActivo: 39, color: 'green' },
+     { parroquia: 'mari pelona', inicio: '24/05/2025', final: 'ACTIVO', diasActivo: 39, color: 'green' }
 ];
 
 export const estados = [
