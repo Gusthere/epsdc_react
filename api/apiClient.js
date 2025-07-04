@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Platform } from "react-native";
 import { API_BASE_URL } from "../config/urlAPI";
 import {
   getAccessToken,
@@ -8,6 +9,15 @@ import {
 } from "../utils/tokenStorage";
 import { refreshAccessToken } from "../services/authService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import forge from 'node-forge';
+import publicKeyPem from '../rsa/publicKey';
+
+function encryptWithPublicKey(data) {
+  const publicKey = forge.pki.publicKeyFromPem(publicKeyPem);
+  const jsonData = JSON.stringify(data);
+  const encrypted = publicKey.encrypt(jsonData, 'RSA-OAEP');
+  return forge.util.encode64(encrypted);
+}
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -21,6 +31,12 @@ apiClient.interceptors.request.use(async (config) => {
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
+
+  if (config.data) {
+    const encrypted = encryptWithPublicKey(config.data);
+    config.data = JSON.stringify({ encrypted });
+  }
+
   return config;
 });
 
@@ -33,7 +49,6 @@ apiClient.interceptors.response.use(
       } else {
         AsyncStorage.setItem("csrfToken", newCsrf);
       }
-      // solo web por simplicidad
     }
     return response;
   },
@@ -55,7 +70,6 @@ apiClient.interceptors.response.use(
         return apiClient(originalRequest);
       } catch {
         await clearTokens();
-        // No se navega aquí, el componente lo debe manejar
         return Promise.reject({ sessionExpired: true });
       }
     }
